@@ -20,8 +20,8 @@ FIRST_SLOT = 4700567 # Sep-15-2022 08:33:47 AM +UTC (first on flashbots dashboar
 LAST_SLOT = 8837998 # Apr-11-2024 11:59:59 PM +UTC
 FIRST_BLOCK = 15537940 # Sep-15-2022 08:33:47 AM +UTC (first on flashbots dashboard: https://docs.flashbots.net/flashbots-data/dashboard)
 LAST_BLOCK = 19635809 # Apr-11-2024 11:59:59 PM +UTC
-BASE_LATENCY_MS = 6.84203364
-LATENCY_PER_GAS_MS = 6.5636138e-6
+BASE_LATENCY_MS = 6.24809794
+LATENCY_PER_GAS_MS = 5.26026644e-6
 # AVERAGE_TX_FEE = 0.00344 # ETH during the above period of 100 days, via source https://bitinfocharts.com/ethereum/
 
     #divnorm = colors.TwoSlopeNorm(vmin=0, vcenter=0.5, vmax=30.5)
@@ -35,7 +35,7 @@ MS_PER_PLOT = 250 #1000 # Max latency in latency-penalty figures
 MS_PER_INTERVAL = 2 #10 # Lantency interval in figures
 NUM_INTERVALS = MS_PER_PLOT // MS_PER_INTERVAL + 1
 
-MIN_INCLUSION_RATE = 60
+MIN_INCLUSION_RATE = 70
 MAX_INCLUSION_RATE = 99
 INCLUSION_RATE_INTERVAL = 1
 
@@ -306,8 +306,8 @@ def plot_latency_penalty(relay, data, list_percentiles):
     write.writerow(header)
     write.writerows(csv_data)
            
-    plt.axvline(x = 0.1 * 1000, color = 'black', label = 'axvline - full height')
-    plt.axvline(x = BASE_LATENCY_MS, color = 'black', label = 'axvline - full height')
+    plt.axvline(x = 85, color = 'black', label = 'axvline - full height')
+    #plt.axvline(x = BASE_LATENCY_MS, color = 'black', label = 'axvline - full height')
     plt.savefig("fig_latency_vs_penalty_" + relay + ".pdf", format="pdf", bbox_inches="tight")
     plt.show()
 
@@ -315,8 +315,8 @@ def plot_inclusionrate_feeoverhead(relay, data, sample_slots, base_fee):
     plt.figure(figsize=(5, 5))
     fig, ax = plt.subplots()
     #plt.xlabel("Average tx latency (ms)")
-    plt.xlabel("Gas used in PROF bundle " + r'$g$')
-    plt.ylabel("Inclusion likelihood " + r'$\alpha$')
+    plt.xlabel("Gas used in PROF bundle (" + r'$g$'+ ")")
+    plt.ylabel("Inclusion likelihood (" + r'$\alpha$' + ")")
     ax.yaxis.set_major_formatter(mtick.PercentFormatter())
     
     header = ['proftxgas', 'inclusionrate', 'feeoverhead']
@@ -346,7 +346,7 @@ def plot_inclusionrate_feeoverhead(relay, data, sample_slots, base_fee):
     bounds = np.linspace(0, 0.25, 11)
     norm = colors.BoundaryNorm(boundaries=bounds, ncolors=256)
     pcm = ax.pcolormesh(X, Y, z, norm=norm, cmap='YlGnBu', shading='auto')
-    cb = plt.colorbar(pcm, label="Transaction-fee overhead " + r'$\gamma$', extend='max', orientation='horizontal')
+    cb = plt.colorbar(pcm, label="Transaction-fee overhead (" + r'$\gamma$' + ")", extend='max', orientation='horizontal')
 
     #divnorm = colors.TwoSlopeNorm(vmin=0, vcenter=0.1, vmax=0.22)
     #pcm = ax.pcolormesh(X, Y, z, norm=divnorm, cmap='tab20', shading='auto')
@@ -360,7 +360,7 @@ def plot_inclusionrate_feeoverhead(relay, data, sample_slots, base_fee):
     write.writerow(header)
     write.writerows(csv_data)
             
-    plt.axvline(x = 1.5e6, linewidth = 1, color = 'black', label = 'axvline - full height')
+    plt.axvline(x = 0.75e6, linewidth = 1, color = 'black', label = 'axvline - full height')
     plt.savefig("fig_inclusionrate_vs_feeoverhead_" + relay + ".pdf", format="pdf", bbox_inches="tight")
     plt.show()
 
@@ -388,4 +388,5 @@ for relay in RELAYS:
 #for i, relay in enumerate(RELAYS):
 #    print(relay, num_winning_slots[i], num_winning_slots[i] / DAYS / DAY_TOTAL_SLOT)
 #print(len(winning_slots), len(winning_slots) / DAYS / DAY_TOTAL_SLOT)
+
 
