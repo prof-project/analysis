@@ -1,0 +1,6 @@
+matplotlib==3.8.1
+pandas==2.1.1
+numpy==1.26.1
+eth-abi==4.0.0b3
+beautifulsoup4==4.10.0
+requests==2.31.0
